@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const PORT = 3001;
-app.use('/', (req, res) => {
+app.use('/taxis/', (req, res) => {
     res.send('Hello world!');
 });
 app.listen(PORT, () => {
