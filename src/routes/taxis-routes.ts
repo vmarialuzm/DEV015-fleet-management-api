@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { taxis } from "../controllers/taxis";
+import { show } from "../controllers/taxis-controller";
 
 const taxisRouter:Router = Router();
 
-taxisRouter.get('/list', taxis)
+taxisRouter.get('/list', show);
 
 export default taxisRouter;

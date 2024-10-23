@@ -5,11 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
 const express_1 = __importDefault(require("express"));
-const routes_1 = __importDefault(require("./routes"));
+const index_1 = __importDefault(require("./routes/index"));
 const client_1 = require("@prisma/client");
 const app = (0, express_1.default)();
 const PORT = 3001;
-app.use('/api', routes_1.default);
+app.use(express_1.default.json());
+app.use('/api', index_1.default);
 exports.prisma = new client_1.PrismaClient();
 app.listen(PORT, () => {
     console.log('SERVER IS UP ON PORT:', PORT);
