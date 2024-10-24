@@ -12,10 +12,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.show = void 0;
 const taxis_service_1 = require("../services/taxis-service");
 const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const taxis = yield (0, taxis_service_1.showTaxis)();
-    return res.status(200).json({
-        message: "List Data Taxis",
-        data: taxis,
-    });
+    try {
+        const { plate, page = '1', limit = '10' } = req.query;
+        const where = {};
+        const pageNumber = parseInt(page, 10);
+        const limitNumber = parseInt(limit, 10);
+        const skip = (pageNumber - 1) * limitNumber;
+        const take = limitNumber;
+        if (plate) {
+            where.plate = String(plate);
+        }
+        const taxis = yield (0, taxis_service_1.showTaxis)(where, skip, take);
+        return res.status(200).json({
+            message: "List Data Taxis",
+            data: taxis,
+        });
+    }
+    catch (error) {
+        console.error("Error al listar los taxis: ", error);
+        return res.status(500).json({
+            message: "Error interno del servidor",
+        });
+    }
 });
 exports.show = show;

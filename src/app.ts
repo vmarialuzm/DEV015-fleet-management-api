@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Application, Request, Response } from 'express';
 import rootRouter from './routes/index';
 import { PrismaClient } from '@prisma/client'
