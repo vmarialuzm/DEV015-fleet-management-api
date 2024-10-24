@@ -10,9 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showTaxis = void 0;
-const app_1 = require("../app");
+const client_1 = require("@prisma/client");
 const showTaxis = (where, skip, take) => __awaiter(void 0, void 0, void 0, function* () {
-    const taxis = yield app_1.prisma.taxis.findMany({
+    const prisma = new client_1.PrismaClient();
+    const taxis = yield prisma.taxis.findMany({
         where,
         skip,
         take

@@ -3,7 +3,7 @@ import { showTaxis } from "../services/taxis-service";
 import { Prisma } from "@prisma/client";
 
 export const show = async(req: Request, res: Response) => {
-    try {
+    // try {
         const { plate, page = '1', limit = '10'} = req.query;
         const where: Prisma.taxisWhereInput = {};
         const pageNumber = parseInt(page as string, 10);
@@ -26,11 +26,12 @@ export const show = async(req: Request, res: Response) => {
             message: "List Data Taxis",
             data: taxis,
         });
-    } catch (error) {
-        console.error("Error al listar los taxis: ", error);
-        return res.status(500).json({
-            message: "Error interno del servidor",
-        })
-    }
+    // } catch (error) {
+    //     console.log("*****************************************************")
+    //     console.error("Error al listar los taxis: ", error);
+    //     return res.status(500).json({
+    //         message: "Error interno del servidor",
+    //     })
+    // }
 
 };
