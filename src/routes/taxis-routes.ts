@@ -3,6 +3,6 @@ import { show } from "../controllers/taxis-controller";
 
 const taxisRouter:Router = Router();
 
-taxisRouter.get('/list', show);
+taxisRouter.get('/', show);
 
 export default taxisRouter;
