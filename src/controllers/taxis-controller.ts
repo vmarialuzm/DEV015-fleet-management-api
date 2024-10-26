@@ -21,14 +21,11 @@ export const show = async(req: Request, res: Response) => {
             take
         );
         
-        return res.status(200).json({
-            message: "List Data Taxis",
-            data: taxis,
-        });
+        return res.status(200).json(taxis);
     } catch (error) {
         console.error("Error al listar los taxis: ", error);
         return res.status(500).json({
-            message: "Error interno del servidor",
+            error: "Error interno del servidor",
         })
     }
 
