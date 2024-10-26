@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
 import { showTaxis } from "../services/taxis-service";
-import { Prisma } from "@prisma/client";
 
 export const show = async(req: Request, res: Response) => {
     try {
         const { plate, page = '1', limit = '10'} = req.query;
-        const where: Prisma.taxisWhereInput = {};
+        const where: any = {};
         const pageNumber = parseInt(page as string, 10);
         const limitNumber = parseInt(limit as string, 10);
 

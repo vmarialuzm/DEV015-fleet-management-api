@@ -1,7 +1,6 @@
 import { prisma } from "../app"
-import { Prisma } from "@prisma/client";
 
-export const showTaxis = async(where:Prisma.taxisWhereInput, skip:number, take:number) => {
+export const showTaxis = async(where:any, skip:number, take:number) => {
     const taxis = await prisma.taxis.findMany({
         where,
         skip,
