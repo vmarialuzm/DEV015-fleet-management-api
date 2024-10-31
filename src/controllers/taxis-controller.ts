@@ -12,7 +12,10 @@ export const show = async(req: Request, res: Response) => {
         const take = limitNumber
     
         if (plate) {
-            where.plate = String(plate);
+            where.plate = {
+                contains: String(plate),
+                mode: 'insensitive'
+            };
         }
     
         const taxis = await showTaxis(
