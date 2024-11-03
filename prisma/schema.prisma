@@ -17,9 +17,9 @@ model taxis {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model trajectories {
   id        Int       @id(map: "trajectories_pk") @default(autoincrement())
-  taxi_id   Int?
+  taxiId    Int?      @map("taxi_id")
   date      DateTime? @db.Timestamp(6)
   latitude  Float?    @db.Real
   longitude Float?    @db.Real
-  taxi      taxis?    @relation(fields: [taxi_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_taxi")
+  taxi      taxis?    @relation(fields: [taxiId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_taxi")
 }
