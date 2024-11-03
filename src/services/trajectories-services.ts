@@ -1,8 +1,8 @@
 import { prisma } from "../app"
 
 interface showTrajectoriesParams {
-    taxiId?: number;
-    date?: string
+    taxiId: number;
+    date: string
 }
 
 export const showTrajectories = async({taxiId, date}: showTrajectoriesParams) => {
