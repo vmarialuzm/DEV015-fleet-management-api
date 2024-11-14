@@ -48,7 +48,7 @@ export const showTrajectoriesLatest = async() => {
         id: trajectory.id,
         plate: trajectory.taxi?.plate || null,
         taxiId: trajectory.taxiId,
-        date: trajectory.date,
+        timestamp: trajectory.date,
         latitude: trajectory.latitude,
         longitude: trajectory.longitude,
     }));
