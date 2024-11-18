@@ -23,3 +23,10 @@ model trajectories {
   longitude Float?    @db.Real
   taxi      taxis?    @relation(fields: [taxiId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_taxi")
 }
+
+model User {
+  id       Int    @id(map: "user_pk") @default(autoincrement())
+  name     String @db.VarChar
+  email    String @unique(map: "email_unique") @db.VarChar
+  password String @db.VarChar
+}
