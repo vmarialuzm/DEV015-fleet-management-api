@@ -1,9 +1,20 @@
 import { Request, Response } from "express";
 import { showUsers, crearUser, actualizarUser, eliminarUser} from "../services/users-services";
+import { prisma } from "../app"
 
 export const getUsers = async(req: Request, res: Response) => {
     const { page = '1', limit = '10'} = req.query;
     
+    const positiveIntegerRegex = /^[1-9]\d*$/;
+
+    if (!positiveIntegerRegex.test(page as string)) {
+        return res.status(400).json({ error: "Page debe ser un número entero positivo"})
+    }
+
+    if (!positiveIntegerRegex.test(limit as string)) {
+        return res.status(400).json({ error: "Limit debe ser un número entero positivo"})
+    }
+
     try {
         const users = await showUsers({
             page: parseInt(page as string, 10),
@@ -18,7 +29,15 @@ export const getUsers = async(req: Request, res: Response) => {
 export const createUser = async(req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
+    
     try {
+        const existingUser = await prisma.user.findUnique({
+            where:{email}
+        });
+        if (existingUser) {
+            return res.status(409).json({ error: "Usuario con ese email ya existe"})
+        }
+
         const user = await crearUser({
             name,
             email,
@@ -31,12 +50,19 @@ export const createUser = async(req: Request, res: Response) => {
 };
 
 export const updateUser = async(req: Request, res: Response) => {
-    const { id } = req.params
+    const { uid } = req.params
     const { name, email, password } = req.body;
 
     try {
+        const existingUser = await prisma.user.findUnique({
+            where:{id: Number(uid)}
+        });
+        if (!existingUser) {
+            return res.status(404).json({ error: "El Usuario no existe"})
+        }
+
         const user = await actualizarUser(
-            Number(id),
+            Number(uid),
             {
                 name,
                 email,
@@ -49,13 +75,20 @@ export const updateUser = async(req: Request, res: Response) => {
 };
 
 export const deleteUser = async(req: Request, res: Response) => {
-    const { id } = req.params
+    const { uid } = req.params
 
     try {
+        const existingUser = await prisma.user.findUnique({
+            where:{id: Number(uid)}
+        });
+        if (!existingUser) {
+            return res.status(404).json({ error: "El Usuario no existe"})
+        }
+        
         const user = await eliminarUser(
-            Number(id),
+            Number(uid),
         );
-        return res.status(204).json(user)
+        return res.status(200).json(user)
     } catch (error: any) {
         return res.status(400).json({ error: error.message })
     }
