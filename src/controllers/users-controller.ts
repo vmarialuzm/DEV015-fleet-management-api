@@ -51,7 +51,7 @@ export const createUser = async(req: Request, res: Response) => {
 
 export const updateUser = async(req: Request, res: Response) => {
     const { uid } = req.params
-    const { name, email, password } = req.body;
+    const { name } = req.body;
 
     try {
         const existingUser = await prisma.user.findUnique({
@@ -61,12 +61,14 @@ export const updateUser = async(req: Request, res: Response) => {
             return res.status(404).json({ error: "El Usuario no existe"})
         }
 
+        if (!name) {
+            return res.status(400).json({ error: "Debe proporcionar el name para actualizar"})
+        }
+
         const user = await actualizarUser(
             Number(uid),
             {
-                name,
-                email,
-                password
+                name
             });
         return res.status(200).json(user)
     } catch (error: any) {
