@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { showUsers, crearUser, actualizarUser, eliminarUser} from "../services/users-services";
 import { prisma } from "../app"
+import { authenticateUser } from "../services/users-services";
+
 
 export const getUsers = async(req: Request, res: Response) => {
     const { page = '1', limit = '10'} = req.query;
@@ -93,5 +95,20 @@ export const deleteUser = async(req: Request, res: Response) => {
         return res.status(200).json(user)
     } catch (error: any) {
         return res.status(400).json({ error: error.message })
+    }
+};
+
+export const loginUser = async(req: Request, res: Response) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: "Email y contraseña son obligatorios" });
+    }
+
+    try {
+        const result = await authenticateUser(email, password);
+        return res.status(200).json(result);
+    } catch (error: any) {
+        return res.status(401).json({ error: error.message });
     }
 };
